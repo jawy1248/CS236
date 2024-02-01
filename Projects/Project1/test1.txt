@@ -1,8 +1,8 @@
-this is a test
-SCHEMES:
-RULES:
-FACTS:
-() :- hello
-: colon
-:-
-?
+Schemes:
+Facts:
+Rules:
+Queries:
+id
+Something else
+Schemes:
+Facts:

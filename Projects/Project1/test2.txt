@@ -1,0 +1,5 @@
+Facts:
+id1 :- (id2)
+Rules:
+Schemes:
+Queries:

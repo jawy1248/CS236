@@ -1,11 +1,10 @@
-#include <stdio.h>
-
 #include <cctype>
-#include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Token.h"
+
 #pragma once
 
 using namespace std;
@@ -13,11 +12,10 @@ using namespace std;
 class Scanner {
    private:
     string input;
-    string output;
     int line = 1;
 
    public:
-    Scanner(const string input) : input(input) {}
+    Scanner(const string input) : input(std::move(input)) {}
 
     vector<Token> scanToken() {
         // Declare parameters
@@ -34,15 +32,11 @@ class Scanner {
             newLine = 0;
 
             // Remove whitespace
-            char temp = input.at(0);
-            while (isspace(temp)) {
-                // Move the input until we get to some sort of char
+            while (isspace(input.at(0)) && input.at(0) != '\n')
                 input = input.substr(1);
-                temp = input.at(0);
-            }
 
             // Get the input tokens
-            switch (temp) {
+            switch (input.at(0)) {
                 case '\n': {
                     line += 1;
                     input = input.substr(1);
@@ -104,17 +98,22 @@ class Scanner {
 
                 case '\'': {
                     int pos = input.size();
-                    for (int i = 1; i < pos; i++) {
+                    for (unsigned i = 1; i < pos; i++)
                         if (input.at(i) == '\n')
                             newLine = (newLine == 0) ? line + 1 : newLine + 1;
                         else if (i != pos - 1) {
-                            if (input.at(i) == '\'' && input.at(i + 1) == '\'' && i + 2 < pos)
+                            if (input.at(i) == '\'' && input.at(i + 1) != '\'') {
+                                type = STRING;
+                                pos = i + 1;
+                                break;
+                            } else if (input.at(i) == '\'' && input.at(i + 1) == '\'' && i + 2 < pos)
                                 i++;
                         } else
                             type = UNDEFINED;
-                    }
+
                     if (type != STRING && type != UNDEFINED)
                         type = UNDEFINED;
+
                     size = input.substr(0, pos).size();
                     break;
                 }
@@ -139,31 +138,30 @@ class Scanner {
                     break;
                 }
 
-                default: {
-                    string subString5 = input.substr(0, 5);
-                    string subString7 = input.substr(0, 7);
+                default:
+                    string str5 = input.substr(0, 5);
+                    string str7 = input.substr(0, 7);
 
-                    if (subString7 == "Schemes" && !isalpha(input.at(7))) {
+                    if (str7 == "Schemes" && !isalpha(input.at(7))) {
                         type = SCHEMES;
                         size = 7;
-                    } else if (subString5 == "Facts" && !isalpha(input.at(5))) {
+                    } else if (str5 == "Facts" && !isalpha(input.at(5))) {
                         type = FACTS;
                         size = 5;
-                    } else if (subString5 == "Rules" && !isalpha(input.at(5))) {
+                    } else if (str5 == "Rules" && !isalpha(input.at(5))) {
                         type = RULES;
                         size = 5;
-                    } else if (subString7 == "Queries" && !isalpha(input.at(7))) {
+                    } else if (str7 == "Queries" && !isalpha(input.at(7))) {
                         type = QUERIES;
                         size = 7;
                     } else if (isalpha(input.at(0))) {
                         type = ID;
-                        int pos = 0;
-                        for (int i = 0; i < input.size(); i++) {
-                            if (!isalpha(input.at(i) && !isdigit(input.at(i)))) {
+                        unsigned pos = 0;
+                        for (int i = 0; i < input.size(); i++)
+                            if (!isalpha(input.at(i)) && !isdigit(input.at(i))) {
                                 pos = i;
                                 break;
                             }
-                        }
                         size = input.substr(0, pos).size();
                     } else if (!input.empty()) {
                         type = UNDEFINED;
@@ -173,13 +171,13 @@ class Scanner {
                         size = 0;
                     }
                     break;
-                }
             }
             value = input.substr(0, size);
             input = input.substr(size);
 
             tokens.emplace_back(type, value, line);
         }
+
         if (input.empty()) {
             line = (newLine != 0) ? newLine : line;
             tokens.emplace_back(myEOF, "", line);

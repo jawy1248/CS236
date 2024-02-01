@@ -38,8 +38,8 @@ class Token {
 
     string toString() const {
         stringstream out;
-        out << "(" << typeName(type) << ", "
-            << "\"" << value << "\", " << line << ")";
+        out << "(" << typeName(type) << ","
+            << "\"" << value << "\"," << line << ")";
         return out.str();
     }
 

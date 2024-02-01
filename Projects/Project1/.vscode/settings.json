@@ -2,6 +2,11 @@
   "files.associations": {
     "string": "cpp",
     "ostream": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "cctype": "cpp",
+    "vector": "cpp",
+    "array": "cpp",
+    "string_view": "cpp",
+    "unordered_map": "cpp"
   }
 }
