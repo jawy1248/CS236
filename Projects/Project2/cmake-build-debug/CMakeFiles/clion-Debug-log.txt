@@ -1,0 +1,4 @@
+/Users/carsonwynn/Applications/CLion.app/Contents/bin/cmake/mac/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Users/carsonwynn/Applications/CLion.app/Contents/bin/ninja/mac/x64/ninja -G Ninja -S /Users/carsonwynn/Desktop/Winter2024/CS236/CS236/Projects/Project2 -B /Users/carsonwynn/Desktop/Winter2024/CS236/CS236/Projects/Project2/cmake-build-debug
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/carsonwynn/Desktop/Winter2024/CS236/CS236/Projects/Project2/cmake-build-debug
