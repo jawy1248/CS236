@@ -3,6 +3,8 @@
 #include <vector>
 #include <sstream>
 
+#pragma once
+
 using namespace std;
 
 class Rule {
@@ -10,7 +12,7 @@ class Rule {
         Predicate headPredicate;
         vector<Predicate> bodyPredicates;
     public:
-        explicit Rule(Predicate headPredicate) : headPredicate(headPredicate) {}
+        Rule(Predicate headPredicate) : headPredicate(headPredicate) {}
 
         void addPredicate(const Predicate& p) {
             bodyPredicates.push_back(p);

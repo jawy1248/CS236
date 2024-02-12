@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#pragma once
+
 using namespace std;
 
 class Predicate {
@@ -11,7 +13,7 @@ class Predicate {
         vector<Parameter> parameters;
 
     public:
-        explicit Predicate(string id) : id(id) {}
+        Predicate(string id) : id(id) {}
 
         void addValue(const string& value) {
             parameters.emplace_back(value);

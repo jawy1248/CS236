@@ -7,6 +7,6 @@ class Parameter {
     private:
         string data{};
     public:
-        explicit Parameter(string data) : data(data) {}
-        string getData() { return data; }
+        Parameter(string data) : data(data) {}
+        string getData() const { return data; }
 };
