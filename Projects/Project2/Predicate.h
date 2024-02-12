@@ -15,18 +15,14 @@ class Predicate {
     public:
         Predicate(string id) : id(id) {}
 
-        void addValue(const string& value) {
-            parameters.emplace_back(value);
-        }
+        void addValue(const string& value) { parameters.emplace_back(value); }
 
-        vector<Parameter> getParameters() {
-            return parameters;
-        }
+        vector<Parameter> getParameters() { return parameters; }
 
         string toString() {
             stringstream out;
             out << id + "(";
-            for (int i = 0; i < parameters.size(); i++) {
+            for (unsigned i = 0; i < parameters.size(); i++) {
                 out << parameters[i].getData();
                 if (i < parameters.size() - 1)
                     out << ",";

@@ -29,7 +29,7 @@ class DatalogProgram {
 
             // Schemes
             out << "Schemes(" << schemes.size() << ((schemes.empty()) ? "):\n" : "):\n  ");
-            for (int i = 0; i < schemes.size(); i++) {
+            for (unsigned i = 0; i < schemes.size(); i++) {
                 out << schemes[i].toString() << "\n";
                 if (i != schemes.size() - 1)
                     out << "  ";
@@ -37,7 +37,7 @@ class DatalogProgram {
 
             // Facts
             out << "Facts(" << facts.size() << ((facts.empty()) ? "):\n" : "):\n  ");
-            for (int i = 0; i < facts.size(); i++) {
+            for (unsigned i = 0; i < facts.size(); i++) {
                 out << facts[i].toString() << ".\n";
                 if (i != facts.size() - 1)
                     out << "  ";
@@ -45,7 +45,7 @@ class DatalogProgram {
 
             // Rules
             out << "Rules(" << rules.size() << ((rules.empty()) ? "):\n" : "):\n  ");
-            for (int i = 0; i < rules.size(); i++) {
+            for (unsigned i = 0; i < rules.size(); i++) {
                 out << rules[i].toString() << "\n";
                 if (i != rules.size() - 1)
                     out << "  ";
@@ -53,7 +53,7 @@ class DatalogProgram {
 
             // Queries
             out << "Queries(" << queries.size() << ((queries.empty()) ? "):\n" : "):\n  ");
-            for (int i = 0; i < queries.size(); i++) {
+            for (unsigned i = 0; i < queries.size(); i++) {
                 out << queries[i].toString() << "?\n";
                 if (i != queries.size() - 1)
                     out << "  ";

@@ -12,7 +12,7 @@ using namespace std;
 class Scanner {
    private:
     string input;
-    int line = 1;
+    unsigned line = 1;
 
    public:
     Scanner(const string input) : input(std::move(input)) {}
@@ -21,8 +21,8 @@ class Scanner {
         // Declare parameters
         vector<Token> tokens;
         TokenType type;
-        int size;
-        int newLine = 0;
+        unsigned size;
+        unsigned newLine = 0;
         string value;
 
         // Repeat until the input is empty
@@ -97,7 +97,7 @@ class Scanner {
                 }
 
                 case '\'': {
-                    int pos = input.size();
+                    unsigned pos = input.size();
                     for (unsigned i = 1; i < pos; i++)
                         if (input.at(i) == '\n')
                             newLine = (newLine == 0) ? line + 1 : newLine + 1;
@@ -120,10 +120,10 @@ class Scanner {
 
                 case '#': {
                     bool err = false;
-                    int pos = 0;
+                    unsigned pos = 0;
                     if (input.at(1) == '|') {
                         err = true;
-                        for (int i = 0; i < input.size(); i++) {
+                        for (unsigned i = 0; i < input.size(); i++) {
                             if (input.at(i) == '\n')
                                 (newLine == 0) ? newLine = line + 1 : newLine++;
                             if (input.at(i) == '|' && i != input.size() - 1 && input.at(i + 1) == '#') {
@@ -157,7 +157,7 @@ class Scanner {
                     } else if (isalpha(input.at(0))) {
                         type = ID;
                         unsigned pos = 0;
-                        for (int i = 0; i < input.size(); i++)
+                        for (unsigned i = 0; i < input.size(); i++)
                             if (!isalpha(input.at(i)) && !isdigit(input.at(i))) {
                                 pos = i;
                                 break;
