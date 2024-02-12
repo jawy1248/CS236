@@ -43,7 +43,7 @@ class Token {
         return out.str();
     }
 
-    TokenType const getType() { return type; }
+    TokenType getType() const { return type; }
 
     string typeName(TokenType type) const {
         switch (type) {
