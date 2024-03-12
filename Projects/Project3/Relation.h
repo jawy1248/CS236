@@ -20,6 +20,7 @@ private:
 
 public:
     Relation(const string& name, const Scheme& scheme) : name(name), scheme(scheme) {}
+    Relation() = default;
 
     void addTuple(const Tuple& tuple){ tuples.insert(tuple); }
 
