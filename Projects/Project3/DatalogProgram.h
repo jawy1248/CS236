@@ -23,6 +23,13 @@ class DatalogProgram {
         void addToRules(Rule& r) { rules.push_back(r); }
         void addToDomain(const string& d) { domain.insert(d); }
 
+        // Getting to each of the variables
+        vector<Predicate> getSchemes(){ return schemes; }
+        vector<Predicate> getFacts(){ return facts; }
+        vector<Predicate> getQueries(){ return queries; }
+        vector<Rule> getRules(){ return rules; }
+        set<string> getDomain(){ return domain; }
+
         // toString
         string toString(){
             stringstream out;

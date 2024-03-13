@@ -1,10 +1,5 @@
 
-#include <sstream>
-
-#include "string"
-#include "vector"
 #include "set"
-
 #include "Scheme.h"
 #include "Tuple.h"
 
@@ -14,28 +9,67 @@ using namespace std;
 
 class Relation {
 private:
-    string name;
+    string name{};
     Scheme scheme;
-    set<Tuple> tuples;
+    set<Tuple> tuples{};
 
 public:
-    Relation(const string& name, const Scheme& scheme) : name(name), scheme(scheme) {}
+    Relation(string name, Scheme scheme) : name(std::move(name)), scheme(std::move(scheme)) {}
     Relation() = default;
 
-    void addTuple(const Tuple& tuple){ tuples.insert(tuple); }
+    bool addTuple(const Tuple& tuple){ return tuples.insert(tuple).second; }
+
+    unsigned size() const { return tuples.size(); }
 
     string toString() const {
         stringstream out;
-        for(auto& tuple: tuples)
-            out << tuple.toString(scheme) << endl;
+        if (!Tuple(scheme).empty())
+            for (const Tuple& tuple: tuples)
+                out << "  " << tuple.toString(scheme) << endl;
         return out.str();
     }
 
-    Relation select(int index, const string& val) const {
+    const string& getName() const { return name; }
+
+    void setName(const string& tempName) { Relation::name = tempName; }
+
+    const Scheme& getScheme() const { return scheme; }
+
+    void setScheme(const Scheme& tempScheme) { scheme = tempScheme; }
+
+    Relation select(unsigned ind, const string& val) const {
         Relation result(name, scheme);
-        for(auto& tuple: tuples)
-            if(tuple.at(index) == val)
+        for(const Tuple& tuple : tuples)
+            if(tuple.at(ind) == val)
                 result.addTuple(tuple);
+        return result;
+    }
+
+    Relation select(unsigned ind1, unsigned ind2) const {
+        Relation result(name, scheme);
+        for(const Tuple& tuple: tuples)
+            if(tuple.at(ind1) == tuple.at(ind2))
+                result.addTuple(tuple);
+        return result;
+    }
+
+    Relation project(const vector<unsigned>& columns) {
+        Relation result(name, scheme);
+        for(Tuple tuple: tuples) {
+            Tuple tempTup;
+
+            for(unsigned col: columns)
+                tempTup.push_back(tuple.at(col));
+
+            result.addTuple(tempTup);
+        }
+        return result;
+    }
+
+    Relation rename(vector<string> newNames) {
+        Relation result(name, Scheme(newNames));
+        for(const Tuple& tuple: tuples)
+            result.addTuple(tuple);
         return result;
     }
 };

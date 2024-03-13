@@ -9,6 +9,6 @@ class Parameter {
     private:
         string data{};
     public:
-        Parameter(string data) : data(data) {}
-        string getData() const { return data; }
+        Parameter(string data) : data(std::move(data)) {}
+        string getParameters() const { return data; }
 };

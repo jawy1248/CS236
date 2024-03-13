@@ -1,7 +1,10 @@
+
 #include "Parameter.h"
+
 #include <utility>
 #include <vector>
 #include <string>
+#include <sstream>
 
 #pragma once
 
@@ -19,11 +22,13 @@ class Predicate {
 
         vector<Parameter> getParameters() { return parameters; }
 
+        string getName() { return id; }
+
         string toString() {
             stringstream out;
             out << id + "(";
             for (unsigned i = 0; i < parameters.size(); i++) {
-                out << parameters[i].getData();
+                out << parameters.at(i).getParameters();
                 if (i < parameters.size() - 1)
                     out << ",";
             }

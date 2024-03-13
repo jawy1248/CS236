@@ -79,7 +79,7 @@ public:
         if (tokenType() == COMMA) {
             match(COMMA);
             p.addValue(match(STRING));
-            datalog.addToDomain(p.getParameters().back().getData());
+            datalog.addToDomain(p.getParameters().back().getParameters());
             stringList(p);
         }
     }
@@ -117,7 +117,7 @@ public:
             Predicate p(match(ID));
             match(LEFT_PAREN);
             p.addValue(match(STRING));
-            datalog.addToDomain(p.getParameters().back().getData());
+            datalog.addToDomain(p.getParameters().back().getParameters());
             stringList(p);
             match(RIGHT_PAREN);
             match(PERIOD);
@@ -171,7 +171,7 @@ public:
         }
     }
 
-    void datalogProgram() {
+    DatalogProgram datalogProgram() {
         match(SCHEMES);
         match(COLON);
         scheme();
@@ -187,7 +187,6 @@ public:
         query();
         queryList();
         match(myEOF);
-        std::cout << "Success!" << std::endl;
-        std::cout << datalog.toString();
+        return datalog;
     }
 };

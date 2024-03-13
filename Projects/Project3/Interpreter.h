@@ -22,13 +22,13 @@ public:
 
     void doSchemes() {
         for (Predicate& pred : program.getSchemes()){
-            Relation newRel;
+            Relation rel;
             vector<string> data;
             for (Parameter param : pred.getParameters())
                 data.push_back(param.getParameters());
-            newRel.setScheme(Scheme(data));
-            newRel.setName(pred.getName());
-            db.insert(newRel);
+            rel.setScheme(Scheme(data));
+            rel.setName(pred.getName());
+            db.insert(rel);
         }
     }
 
@@ -44,9 +44,12 @@ public:
 
     void doQueries() {
         for (Predicate pred : program.getQueries()){
-            Relation r = doPredicate(pred);
+            Relation rel = doPredicate(pred);
             cout << pred.toString() << "? ";
-            cout << ( (r.size() != 0) ? "Yes(" << r.size() << ")" : "No" ) << endl;
+            if(rel.size() != 0)
+                cout << "Yes(" << rel.size() << ")" << endl << rel.toString();
+            else
+                cout << "No" << endl;
         }
     }
 
@@ -56,7 +59,7 @@ public:
         vector<string> names;
 
         for (unsigned row = 0; row < pred.getParameters().size(); row++){
-            string param = pred.getParameters().at(row).getParameter();
+            string param = pred.getParameters().at(row).getParameters();
 
             if (param.at(0) == '\'')
                 rel = rel.select(row, param);

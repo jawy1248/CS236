@@ -26,7 +26,7 @@ public:
 
     unsigned size(){
         unsigned i = 0;
-        for (const pair<const string, Relation> & p : dataMap)
+        for (const pair<const string, Relation>& p : dataMap)
             i += p.second.size();
         return i;
     }
