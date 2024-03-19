@@ -8,14 +8,32 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-    ifstream infile(argv[1]);
-    stringstream buffer;
-    buffer << infile.rdbuf();
-    infile.close();
+int main() {
 
-    Interpreter interpreter(Parser(Scanner(buffer.str()).scanToken()).datalogProgram());
-    interpreter.run();
+    printf("Self Join\n");
+    Relation studentRelation("students", Scheme( {"ID", "Name", "Major"} ));
 
-    return 0;
+    vector<string> studentValues[] = {
+            {"'42'", "'Ann'", "'CS'"},
+            {"'64'", "'Ned'", "'EE'"},
+    };
+
+    for (auto& value : studentValues)
+        studentRelation.addTuple(Tuple(value));
+
+    studentRelation.join(studentRelation);
+
+    printf("\nCourse Join\n");
+    Relation courseRelation("courses", Scheme( {"ID", "Course"} ));
+
+    vector<string> courseValues[] = {
+            {"'42'", "'CS 100'"},
+            {"'32'", "'CS 232'"},
+    };
+
+    for (auto& value : courseValues)
+        courseRelation.addTuple(Tuple(value));
+
+    studentRelation.join(courseRelation);
+
 }

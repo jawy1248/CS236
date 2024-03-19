@@ -53,6 +53,32 @@ public:
         return result;
     }
 
+    static bool joinable(const Scheme& leftScheme, const Scheme& rightScheme, const Tuple& leftTuple, const Tuple& rightTuple){
+        for(unsigned li = 0; li < leftScheme.size(); li++){
+            cout << "left name: " << leftScheme.at(li) << " value: " << leftTuple.at(li) << endl;
+            for(unsigned ri = 0; ri < rightScheme.size(); ri++){
+                cout << "right name: " << rightScheme.at(ri) << " right: " << rightTuple.at(ri) << endl;
+                if(rightScheme.at(ri) == leftScheme.at(li) && rightTuple.at(ri) != leftTuple.at(li))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    Relation join(const Relation& right) {
+        for(const Tuple& leftTuple: tuples ){
+            cout << "left tuple: " << leftTuple.toString(scheme) << endl;
+            for(const Tuple& rightTuple: right.tuples)
+                cout << "right tuple: " << rightTuple.toString(right.scheme) << endl;
+        }
+
+        return Relation();
+    }
+
+    Relation joinSchemes(){ return Relation(); }
+
+    Relation joinTuples(){ return Relation(); }
+
     Relation project(const vector<unsigned>& columns) {
         Relation result(name, scheme);
         for(Tuple tuple: tuples) {
