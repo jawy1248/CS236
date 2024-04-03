@@ -3,6 +3,7 @@
 
 #include "DatalogProgram.h"
 #include "Database.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -130,6 +131,26 @@ public:
         } while(preSize != postSize);
 
         cout << "\nSchemes populated after " << count << " passes through the Rules.\n" << endl;
+    }
+
+    static Graph makeGraph(const vector<Rule>& rules){
+        Graph graph(rules.size());
+
+        for(unsigned start = 0; start < rules.size(); start++){
+//            cout << "from rule R" << start << ": " << rules.at(start).toString() << endl;
+            for(unsigned pred = 0; pred < rules.at(start).size(); pred++){
+//                cout << "from body predicate: " << rules.at(start).getPred(pred).toString() << endl;
+                for(unsigned end = 0; end < rules.size(); end++){
+//                    cout << "to rule R" << end << ": " << rules.at(end).toString() << endl;
+                    if(rules.at(start).getPred(pred).toString() == rules.at(end).getHeadPred().toString()) {
+//                        cout << "dependency found: (R" << start << ",R" << end << ")" << endl;
+                        graph.addEdge(start, end);
+                    }
+                }
+            }
+        }
+
+        return graph;
     }
 
 };

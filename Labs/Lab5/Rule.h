@@ -15,10 +15,12 @@ class Rule {
         Rule(Predicate headPredicate) : headPredicate(headPredicate) {}
 
         void addPredicate(const Predicate& p) { bodyPredicates.push_back(p); }
-        Predicate getHeadPred() { return headPredicate; }
-        vector<Predicate> getBodyPreds() { return bodyPredicates; }
+        Predicate getHeadPred() const { return headPredicate; }
+        vector<Predicate> getBodyPreds() const { return bodyPredicates; }
+        Predicate getPred(unsigned pred) const { return bodyPredicates.at(pred); }
+        unsigned size() const { return bodyPredicates.size(); }
 
-        string toString() {
+        string toString() const {
             stringstream out;
             out << headPredicate.toString() << " :- ";
             for (unsigned i = 0; i < bodyPredicates.size(); i++) {

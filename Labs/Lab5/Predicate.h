@@ -25,7 +25,7 @@ class Predicate {
 
         string getName() { return id; }
 
-        string toString() {
+        string toString() const {
             stringstream out;
             out << id + "(";
             for (unsigned i = 0; i < parameters.size(); i++) {
