@@ -59,15 +59,17 @@ public:
                 tempRule.push_back(rules.at(scc));
                 out << 'R' << scc << ((&scc != &*(--SCC.end())) ? ',' : '\n');
             }
-            if(!out.str().empty()) {
+
+            if (!out.str().empty()) {
                 cout << "SCC: " << out.str() << doRuleList(tempRule) << out.str() << endl;
             }
+
         }
     }
 
     void doQueries() {
-        cout << "Query Evaluation" << endl;
-        for (Predicate pred : program.getQueries()){
+        cout << "\nQuery Evaluation" << endl;
+        for (const Predicate& pred : program.getQueries()){
             Relation rel = doPredicate(pred);
             cout << pred.toString() << "? ";
             if(rel.size() != 0)
@@ -134,7 +136,7 @@ public:
         }
     }
 
-    void doRuleList(const vector<Rule>& rules){
+    string doRuleList(const vector<Rule>& rules){
         unsigned preSize;
         unsigned postSize;
         unsigned count = 0;
@@ -144,23 +146,24 @@ public:
             preSize = db.size();
             singlePass(rules);
             postSize = db.size();
-        } while(preSize != postSize);
+        } while(preSize != postSize && ((rules.size() != 1) || isSelfDep(rules)));
 
-        cout << "\nSchemes populated after " << count << " passes through the Rules.\n" << endl;
+        return to_string(count) + " passes: ";
     }
 
-    static Graph makeGraph(const vector<Rule>& rules){
+    static bool isSelfDep(const vector<Rule>& rules){
+        vector<Predicate> loop = rules.at(0).getBodyPreds();
+        return any_of(loop.begin(), loop.end(), [rules](const Predicate& pred) { return (pred.getName() == rules.at(0).getHeadPred().getName()); });
+    }
+
+    static Graph makeGraph(const vector<Rule>& rules, bool back = false){
         Graph graph(rules.size());
 
         for(unsigned start = 0; start < rules.size(); start++){
-//            cout << "from rule R" << start << ": " << rules.at(start).toString() << endl;
-            for(unsigned pred = 0; pred < rules.at(start).size(); pred++){
-//                cout << "from body predicate: " << rules.at(start).getPred(pred).toString() << endl;
+            for(unsigned pred = 0; pred < rules.at(start).getBodyPreds().size(); pred++){
                 for(unsigned end = 0; end < rules.size(); end++){
-//                    cout << "to rule R" << end << ": " << rules.at(end).toString() << endl;
-                    if(rules.at(start).getPred(pred).toString() == rules.at(end).getHeadPred().toString()) {
-//                        cout << "dependency found: (R" << start << ",R" << end << ")" << endl;
-                        graph.addEdge(start, end);
+                    if(rules.at(end).getHeadPred().getName() == rules.at(start).getBodyPreds().at(pred).getName()) {
+                        graph.addEdge((back) ? end : start, (back) ? start : end);
                     }
                 }
             }

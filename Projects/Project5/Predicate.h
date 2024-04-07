@@ -23,7 +23,7 @@ class Predicate {
 
         vector<Parameter> getParameters() { return parameters; }
 
-        string getName() { return id; }
+        string getName() const { return id; }
 
         string toString() const {
             stringstream out;

@@ -17,7 +17,6 @@ class Rule {
         void addPredicate(const Predicate& p) { bodyPredicates.push_back(p); }
         Predicate getHeadPred() const { return headPredicate; }
         vector<Predicate> getBodyPreds() const { return bodyPredicates; }
-        Predicate getPred(unsigned pred) const { return bodyPredicates.at(pred); }
         unsigned size() const { return bodyPredicates.size(); }
 
         string toString() const {

@@ -10,7 +10,6 @@ class Node {
 private:
     set<unsigned> adjNodeSet;
     bool seen = false;
-    unsigned poNum = 0;
 
 public:
     Node() = default;
